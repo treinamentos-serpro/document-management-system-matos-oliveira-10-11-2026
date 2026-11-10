@@ -34,6 +34,14 @@ function makeUploadForm(contents, { filename = 'relatorio.pdf', type = 'applicat
   return form;
 }
 
+test('listagem retorna uma lista vazia quando não há documentos', async (t) => {
+  const { baseUrl } = await createTestServer(t);
+  const response = await fetch(`${baseUrl}/documents`);
+
+  assert.equal(response.status, 200);
+  assert.deepEqual(await response.json(), { documents: [] });
+});
+
 test('upload, listagem e download usam os contratos definidos', async (t) => {
   const { baseUrl } = await createTestServer(t);
   const contents = Buffer.from('%PDF-1.7\nconteudo de teste');
